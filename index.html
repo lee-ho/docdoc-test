@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Parcel - Vue - Form</title>
+		<link rel="stylesheet" type="text/css" href="./styles.sass" />
+	</head>
+
+	<body>
+		<div id="app" class="main-container">
+
+			<form @submit.prevent="onSubmit">
+
+				<div class="form-steps">
+					<div :class="{ active: secondStep == false }" v-on:click="firstStep">Основные даные</div>
+					<div :class="{ active: secondStep == true }">Адрес доставки</div>
+				</div>
+
+				<p v-if="errors.length">
+					Errors:
+					<ul>
+						<li v-for="formError in formErrors">{{ formError }}</li>
+					</ul>
+				</p>
+
+				<div class="step-container" :class="{ active: secondStep == false }">
+					<div class="name-container">
+						<div class="field-container">
+							<label>Имя</label>
+							<input type="text" v-model="name" placeholder="Иван" maxlength="255" />
+						</div>
+						<div class="field-container">
+							<label>Фамилия</label>
+							<input type="text" v-model="surname" placeholder="Иванов" maxlength="255" />
+						</div>
+					</div>
+					<div class="field-container">
+						<label>Телефон</label>
+						<input type="tel" v-model="phone" placeholder="+79046524783" />
+					</div>
+					<div class="field-container">
+						<label>Email</label>
+						<input type="email" v-model="email" name="email" placeholder="example@example.com" v-validate="'required|email'" />
+						<div class="error" v-show="errors.has('email')">{{ errors.first('email') }}</div>
+					</div>
+					<div class="button" v-on:click="nextStep">Продолжить</div>
+				</div>
+
+				<div class="step-container"  :class="{ active: secondStep == true }" :key="rerenderKey">
+					<div class="radio-container">
+						<div v-for="deliveryOption in deliveryOptions">
+							<input type="radio" name="delivery" v-on:click="deliveryOptionClick(deliveryOption.name)" />
+							<label>{{ deliveryOption.label }}</label>
+						</div>
+					</div>
+					<div v-show="delivery">
+						<div class="address-container">
+							<div class="field-container">
+								<label>Страна</label>
+								<select v-model="country">
+									<option v-for="country in countries">{{ country }}</option>
+								</select>
+							</div>
+							<div class="field-container">
+								<label>Город</label>
+								<input type="text" v-model="city" placeholder="Москва" maxlength="255" />
+							</div>
+							<div class="field-container">
+								<label>Индекс</label>
+								<input type="number" v-model="postCode" placeholder="398000" maxlength="6" />
+							</div>
+						</div>
+						<div class="field-container">
+							<label>Адрес</label>
+							<input type="text" v-model="address" placeholder="г. Москва, ул. Космонавтов, 14/5" maxlength="255" />
+						</div>
+						<div class="field-container">
+							<label>Дата доставки</label>
+							<input type="date" v-model="date" placeholder="24/05/2017" />
+						</div>
+					</div>
+					<div class="field-container">
+						<label>Комментарий к заказу</label>
+						<textarea v-model="commentary" placeholder="Ваш комментарий здесь..."></textarea>
+					</div>
+					<input type="submit" value="Оформить заказ" class="button" /> 
+				</div>
+
+			</form>
+
+		</div>
+
+		<script src="./index.js"></script>
+	</body>
+
+</html>
