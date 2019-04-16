@@ -1,6 +1,6 @@
-To set up project:
+To set up the project:
 
 1. npm install
 2. ./run.sh
 
-The priject now is running on http://localhost:8000/
+The project now is running on http://localhost:8000/
